@@ -36,11 +36,12 @@ Confirm whether to use the detected numerical columns or enter your own.
 
 ## Demo
 
+```bash
 $ ./datacollector.sh
 Enter the URL to a CSV dataset (ZIP or CSV): https://archive.ics.uci.edu/static/public/186/wine+quality.zip
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100 91353    0 91353    0     0   470k      0 --:--:-- --:--:-- --:--:--  472k
+100  91353    0  91353    0     0   470k      0 --:--:-- --:--:-- --:--:--  472k
 Detected delimiter: ';'
 Columns found in ./winequality-white.csv:
      1  "fixed acidity"
@@ -78,18 +79,18 @@ $ cat summary.md
     12  "quality"
 
 ## Statistics (Numerical Features)
-| Index | Feature | Min | Max | Mean | StdDev |
-|-------|---------|-----|-----|------|--------|
-| 1 | fixed acidity | 3.80 | 14.20 | 6.855 | 0.844 |
-| 2 | volatile acidity | 0.08 | 1.10 | 0.278 | 0.101 |
-| 3 | citric acid | 0.00 | 1.66 | 0.334 | 0.121 |
-| 4 | residual sugar | 0.60 | 65.80 | 6.391 | 5.072 |
-| 5 | chlorides | 0.01 | 0.35 | 0.046 | 0.022 |
-| 6 | free sulfur dioxide | 2.00 | 289.00 | 35.308 | 17.005 |
-| 7 | total sulfur dioxide | 9.00 | 440.00 | 138.361 | 42.494 |
-| 8 | density | 0.99 | 1.04 | 0.994 | 0.003 |
-| 9 | pH | 2.72 | 3.82 | 3.188 | 0.151 |
-| 10 | sulphates | 0.22 | 1.08 | 0.490 | 0.114 |
-| 11 | alcohol | 8.00 | 14.20 | 10.514 | 1.230 |
-| 12 | quality | 3.00 | 9.00 | 5.878 | 0.886 |
+| Index | Feature              | Min   | Max   | Mean    | StdDev |
+|-------|----------------------|-------|-------|---------|--------|
+| 1     | fixed acidity        | 3.80  | 14.20 | 6.855   | 0.844  |
+| 2     | volatile acidity     | 0.08  | 1.10  | 0.278   | 0.101  |
+| 3     | citric acid          | 0.00  | 1.66  | 0.334   | 0.121  |
+| 4     | residual sugar       | 0.60  | 65.80 | 6.391   | 5.072  |
+| 5     | chlorides            | 0.01  | 0.35  | 0.046   | 0.022  |
+| 6     | free sulfur dioxide  | 2.00  | 289.00| 35.308  | 17.005 |
+| 7     | total sulfur dioxide | 9.00  | 440.00| 138.361 | 42.494 |
+| 8     | density              | 0.99  | 1.04  | 0.994   | 0.003  |
+| 9     | pH                   | 2.72  | 3.82  | 3.188   | 0.151  |
+| 10    | sulphates            | 0.22  | 1.08  | 0.490   | 0.114  |
+| 11    | alcohol              | 8.00  | 14.20 | 10.514  | 1.230  |
+| 12    | quality              | 3.00  | 9.00  | 5.878   | 0.886  |
 
