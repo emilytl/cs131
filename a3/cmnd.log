@@ -1,0 +1,9 @@
+cd cs131
+mkdir a3
+cd a3
+vim grader.awk
+vim grades.csv
+awk -f grader.awk grades.csv > a3.txt
+vim a3.txt
+vim cmnd.log
+

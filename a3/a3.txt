@@ -1,0 +1,48 @@
+Output of `awk -f grader.awk grades.csv`
+
+Processing student grades...
+
+Student Summary:
+
+Name: Alice      | Total: 253 | Avg: 84.33 | Status: Pass
+Name: Bob        | Total: 246 | Avg: 82.00 | Status: Pass
+Name: Charlie    | Total: 270 | Avg: 90.00 | Status: Pass
+Name: David      | Total: 195 | Avg: 65.00 | Status: Fail
+Name: Eve        | Total: 265 | Avg: 88.33 | Status: Pass
+
+Top Scorer   : Charlie with score 270
+Lowest Scorer: David with score 195
+
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+~                                                                                                                                                                                   
+"a3.txt" 15L, 456B                                                                                                                                                15,0-1        All
