@@ -6,4 +6,7 @@ vim grades.csv
 awk -f grader.awk grades.csv > a3.txt
 vim a3.txt
 vim cmnd.log
-
+awk -f grader.awk grades.csv   
+git add grader.awk a3.txt cmnd.log
+git commit -m "a3 submissions"
+git push origin main

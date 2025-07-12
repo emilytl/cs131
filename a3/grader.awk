@@ -1,31 +1,28 @@
-# grader.awk
-# Processes student grades: calculates total and average,
-# determines pass/fail status, and identifies top/bottom scorers.
-
 BEGIN {
-    FS = ","  # Set the field separator to comma (CSV format)
-    print "Processing student grades...\n"
+    FS = ","  # Set the field separator to comma
+    print "Processing student grades...\n"   # \n: new line
 }
 
 NR == 1 {
-    # Skip the header row (contains column names)
+    # Skip the header row (avoid column names)
     next
 }
 
 {
-    name = $2      # Extract student name (column 2)
+    name = $2      # Extract student name from column 2
     total = 0
 
+    # Summing up the totalScores for a student
     # Loop through grade fields (starting from column 3)
-    for (i = 3; i <= NF; i++) {
+    for (i = 3; i <= NF; i++) {    # NF: number of fields on the current line
         total += $i
     }
 
-    # Store total in associative array
+    # Store total in associative array (dictionary)
     totalScores[name] = total
 
     # Calculate average using a user-defined function
-    avg = calc_avg(total, NF - 2)
+    avg = calc_avg(total, NF - 2)    # -2 --> first 2 fields are not grades
     averages[name] = avg
 
     # Use if-statement to determine pass/fail
@@ -36,7 +33,7 @@ NR == 1 {
     }
 
     # Track highest and lowest scoring students
-    if (NR == 2 || total > maxScore) {
+    if (NR == 2 || total > maxScore) {    # NR = number on record: line number  being processed
         maxScore = total
         topStudent = name
     }
