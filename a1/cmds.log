@@ -1,0 +1,23 @@
+Q1: What is your home directory path?
+    echo $HOME
+
+Q2: Using only "ls" (and maybe "grep"), can you find out which file under directory /proc/ contains information about memory (mem) on your server? 
+Which file contains information about the CPU's on your server?
+    ls /proc | grep mem
+    ls /proc | grep cpu
+
+Q3: Identify the operating system version. Which file under /etc/ contains this information?
+    ls /etc | grep release
+    cat /etc/os-release
+
+
+Q4: Using the taxi dataset (2019-04.csv):
+Sort the pickup location IDs in order to find the most popular pickup locations on April 2nd, 2019. Identify the top 3 locations.
+    tail -n +2 2019-04.csv | grep '^.*"2019-04-02' | cut -d',' -f8 | sort | uniq -c | sort -nr | head -3
+Sort the pickup location IDs in order to find the most popular pickup locations on April 10th, 2019. Identify the top 3 locations.
+    tail -n +2 2019-04.csv | grep '^.*"2019-04-10' | cut -d',' -f8 | sort | uniq -c | sort -nr | head -3
+
+
+
+
+

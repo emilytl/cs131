@@ -1,0 +1,39 @@
+Q1: What is your home directory path?
+    /home/etleson10
+
+Q2: Using only "ls" (and maybe "grep"), can you find out which file under directory /proc/ contains information about memory (mem) on your server? 
+Which file contains information about the CPU's on your server?
+    iomem
+    meminfo
+    cpuinfo
+
+Q3: Identify the operating system version. Which file under /etc/ contains this information?
+    lsb-release
+    os-release
+
+    PRETTY_NAME="Ubuntu 25.04"
+    NAME="Ubuntu"
+    VERSION_ID="25.04"
+    VERSION="25.04 (Plucky Puffin)"
+    VERSION_CODENAME=plucky
+    ID=ubuntu
+    ID_LIKE=debian
+    HOME_URL="https://www.ubuntu.com/"
+    SUPPORT_URL="https://help.ubuntu.com/"
+    BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+    PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+    UBUNTU_CODENAME=plucky
+    LOGO=ubuntu-logo
+
+Q4: Using the taxi dataset (2019-04.csv):
+Sort the pickup location IDs in order to find the most popular pickup locations on April 2nd, 2019. Identify the top 3 locations.
+    13354 161.0
+    12421 237.0
+    11138 236.0
+Sort the pickup location IDs in order to find the most popular pickup locations on April 10th, 2019. Identify the top 3 locations.
+    13290 161.0
+    12956 237.0
+    11278 236.0
+
+
+
