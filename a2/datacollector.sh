@@ -1,16 +1,21 @@
 #!/bin/bash
+# datacollector.sh — Automated Dataset Collector & Summarizer
+# ------------------------------------------------------------
+# Downloads a dataset (ZIP or CSV), detects its delimiter automatically,
+# identifies numerical columns, and produces a Markdown summary of basic stats.
+# Demonstrates process control, file handling, text manipulation, and automation.
 
-# Prompt for dataset URL
+# Prompt user for dataset URL
 read -p "Enter the URL to a CSV dataset (ZIP or CSV): " url
 
-# Create a temporary directory
+# Create and navigate into a temporary directory
 mkdir -p dataset_temp
 cd dataset_temp || exit
 
-# Download file using curl
+# Download the dataset using curl (follows redirects with -L)
 curl -L "$url" -o data.zip
 
-# Extract CSV from zip or treat as raw CSV
+# Extract CSV if ZIP, or rename directly if raw CSV
 if file data.zip | grep -q "Zip archive"; then
     unzip -q data.zip
     csv_file=$(find . -name "*.csv" | head -n 1)
@@ -19,28 +24,57 @@ else
     csv_file="data.csv"
 fi
 
-# Confirm file exists
+# Validate that a CSV file exists
 if [ ! -f "$csv_file" ]; then
     echo "No CSV file found. Exiting."
     exit 1
 fi
 
-# Detect delimiter
-delimiter=$(head -n 1 "$csv_file" | grep -o '[,;]' | sort | uniq -c | sort -nr | head -n 1 | awk '{print $2}')
-echo "Detected delimiter: '$delimiter'"
+# ------------------------------------------------------------
+# DELIMITER DETECTION (Enhanced for Multiple Formats)
+# ------------------------------------------------------------
+# Detect common delimiters: , ; | : TAB ~ ^ * SPACE
+common_delimiters=',;|:\t~^* '
 
-# Show column headers with index numbers
+# Read first non-empty line to avoid empty header issues
+first_line=$(grep -m 1 -v '^[[:space:]]*$' "$csv_file")
+
+# Count occurrences of potential delimiters and pick the most frequent
+delimiter=$(echo "$first_line" | grep -o "[$common_delimiters]" | sort | uniq -c | sort -nr | head -n 1 | awk '{print $2}')
+
+# Special handling for tab or missing delimiter
+if [ -z "$delimiter" ]; then
+    if echo "$first_line" | grep -q $'\t'; then
+        delimiter=$'\t'
+    else
+        delimiter=","
+    fi
+fi
+
+# Display the detected delimiter clearly for user
+case "$delimiter" in
+    $'\t') echo "Detected delimiter: TAB" ;;
+    " ") echo "Detected delimiter: SPACE" ;;
+    *) echo "Detected delimiter: '$delimiter'" ;;
+esac
+
+# ------------------------------------------------------------
+# COLUMN EXTRACTION AND NUMERICAL DETECTION
+# ------------------------------------------------------------
+# Display column headers with their index
 echo "Columns found in $csv_file:"
 head -n 1 "$csv_file" | sed "s/$delimiter/\n/g" | nl
 
-# Auto-detect numerical columns
-echo "Detecting numerical columns..."
+# Estimate number of fields
 num_fields=$(head -n 1 "$csv_file" | sed "s/[^$delimiter]//g" | wc -c)
 num_fields=$((num_fields + 1))
 
-num_indexes=()
+# Create a small sample for analysis
 tail -n +2 "$csv_file" | head -n 20 > sample_rows.csv
 
+# Detect numerical columns dynamically using AWK pattern matching
+echo "Detecting numerical columns..."
+num_indexes=()
 for ((i=1; i<=num_fields; i++)); do
     if awk -F"$delimiter" -v col="$i" '{
         gsub(/^"|"$/, "", $col)
@@ -49,17 +83,18 @@ for ((i=1; i<=num_fields; i++)); do
         num_indexes+=("$i")
     fi
 done
-
 echo "Automatically detected numerical columns: ${num_indexes[*]}"
 
-# Allow user to override
+# Allow user override for flexibility
 read -p "Use these columns? (y/n): " confirm
 if [[ "$confirm" != "y" ]]; then
     read -p "Enter column numbers manually (e.g., 1,2,4): " manual_cols
     IFS=',' read -ra num_indexes <<< "$manual_cols"
 fi
 
-# Create summary.md
+# ------------------------------------------------------------
+# SUMMARY GENERATION
+# ------------------------------------------------------------
 output="../summary.md"
 echo "# Feature Summary for $(basename "$csv_file")" > "$output"
 echo "" >> "$output"
@@ -70,15 +105,16 @@ echo "## Statistics (Numerical Features)" >> "$output"
 echo "| Index | Feature | Min | Max | Mean | StdDev |" >> "$output"
 echo "|-------|---------|-----|-----|------|--------|" >> "$output"
 
-# Parse headers
+# Parse headers into array
 IFS="$delimiter" read -ra headers <<< "$(head -n 1 "$csv_file")"
 
-# Generate stats for each selected column
+# Compute stats for each detected numerical column
 for i in "${!num_indexes[@]}"; do
     col="${num_indexes[$i]}"
     index=$((i + 1))
     col_name=$(echo "${headers[$((col-1))]}" | sed 's/"//g')
 
+    # Use AWK to calculate min, max, mean, stddev efficiently
     awk -F"$delimiter" -v col="$col" 'NR > 1 {
         gsub(/^"|"$/, "", $col)
         if ($col ~ /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/) print $col
@@ -103,13 +139,11 @@ for i in "${!num_indexes[@]}"; do
     }' >> "$output"
 done
 
-# Cleanup
+# ------------------------------------------------------------
+# CLEANUP
+# ------------------------------------------------------------
 mv "$csv_file" ../
 cd ..
 rm -r dataset_temp sample_rows.csv 2>/dev/null
 
-echo "Summary written to summary.md"
-
-
-
-
+echo "✅ Summary written to summary.md"
